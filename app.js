@@ -7,9 +7,9 @@ const handlers = require('./lib/handlers');
 
 //form handling
 const bodyParser = require('body-parser');
-
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 
 // POST /login gets urlencoded bodies
 app.post('/', urlencodedParser, function (req, res) {
@@ -24,9 +24,13 @@ app.set('view engine','handlebars');
 
 app.use(express.static(__dirname+'/public'));
 
-app.get('/',(req,res)=>{
-    res.render('home');
-});
+app.get('/',handlers.home);
+
+app.get('/newbook',handlers.newbook)
+
+app.post('/newbook', urlencodedParser, function (req, res) {
+  res.send('welcome, ' + req.body.name)
+})
 
 
 //custom 404 page
