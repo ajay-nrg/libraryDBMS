@@ -1,19 +1,19 @@
 const express = require('express');
 const expressHandlebars = require('express-handlebars');
-
 const app = express();
 const port = process.env.PORT || 8080;
 const handlers = require('./lib/handlers');
-
+const db = require('./db');
 //form handling
 const bodyParser = require('body-parser');
-// create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+// // create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 
 
 // POST /login gets urlencoded bodies
-app.post('/', urlencodedParser, function (req, res) {
-  res.send('welcome, ' + req.body.username)
+app.post('/', urlencodedParser,function (req, res) {
+  console.log(req.body);
 })
   
 // configure Handlebars view engine
@@ -28,8 +28,10 @@ app.get('/',handlers.home);
 
 app.get('/newbook',handlers.newbook)
 
-app.post('/newbook', urlencodedParser, function (req, res) {
-  res.send('welcome, ' + req.body.name)
+app.post('/newbook',urlencodedParser,function (req, res) {
+  res.send('Done');
+  db.insertBook(JSON.parse(JSON.stringify(req.body)));
+  console.log(req.body);
 })
 
 
